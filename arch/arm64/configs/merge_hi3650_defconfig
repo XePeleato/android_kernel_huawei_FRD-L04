@@ -414,6 +414,12 @@ CONFIG_CPU_PM=y
 # CONFIG_SUSPEND_TIME is not set
 
 #
+# Hotpluggins drivers
+#
+CONFIG_THUNDERPLUG_CONTROL=y
+
+
+#
 # CPU Frequency scaling
 #
 CONFIG_CPU_FREQ=y
