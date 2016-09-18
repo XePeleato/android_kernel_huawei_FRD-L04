@@ -376,15 +376,22 @@ LINUXINCLUDE += -I$(srctree)/../vendor/hisi/modem/include/taf/
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
+ABYSS_FLAGS 	:= -march=armv8-a+crypto -pipe \
+				   -fmodulo-sched -fmodulo-sched-allow-regmoves -fsingle-precision-constant \
+				   -funswitch-loops -fpredictive-commoning -fgcse-after-reload \
+				   -fno-pic -Wno-unused -Wno-maybe-uninitialized -mno-android
+
+
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Wimplicit-function-declaration \
 		   -Wno-format-security \
-		   -fno-delete-null-pointer-checks 
+		   -fno-delete-null-pointer-checks \
+		   $(ABYSS_FLAGS)
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
-KBUILD_AFLAGS   := -D__ASSEMBLY__
+KBUILD_AFLAGS   := -D__ASSEMBLY__ $(ABYSS_FLAGS)
 KBUILD_AFLAGS_MODULE  := -DMODULE
 KBUILD_CFLAGS_MODULE  := -DMODULE
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
@@ -624,7 +631,7 @@ all: vmlinux
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
 else
-KBUILD_CFLAGS	+= -O2 -g
+KBUILD_CFLAGS	+= -O3 -g -Wno-unused -Wno-implicit-function-declaration -Wno-declaration-after-statement -Wno-array-bounds
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
