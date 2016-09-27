@@ -1,0 +1,16 @@
+os: linux
+language: c
+compiler: gcc
+
+addons:
+  apt:
+    packages:
+        - bc
+
+script:
+  - mkdir prebuilts
+  - cd prebuilts
+  - git init
+  - git push https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9.git
+  - cd ..
+  - ./travis.sh
